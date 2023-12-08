@@ -1,9 +1,19 @@
-add_executable(MyProgram "")
-target_compile_features(MyProgram PUBLIC cxx_std_20)
-target_compile_options(MyProgram PUBLIC ${PROJECT_WARNING_OPTIONS})
-target_sources(MyProgram
-PRIVATE
-    main.cpp
+add_library(KalmanFilter INTERFACE) 
+target_sources(KalmanFilter 
+PUBLIC
+FILE_SET HEADERS FILES
+    kalman_filter.h
 )
-
-install(TARGETS MyProgram EXPORT MyProjectTargets RUNTIME)
+target_include_directories(KalmanFilter
+INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
+target_link_libraries(KalmanFilter
+INTERFACE
+    Eigen3::Eigen
+)
+install(TARGETS KalmanFilter EXPORT KalmanFilterTargets
+    FILE_SET HEADERS
+    INCLUDES DESTINATIION ${CMAKE_INSTALL_INCLUDEDIR}
+)

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25.0)
 
-project(MyProject VERSION 0.1.0)
+project(KalmanFilter VERSION 0.1.0)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 
 include(CMakePackageConfigHelpers)
@@ -15,7 +15,7 @@ set(PROJECT_WARNING_OPTIONS
 )
 
 add_compile_definitions(
-    $<$<CONFIG:DEBUG>:MyProject_DEBUG>
+    $<$<CONFIG:DEBUG>:KalmanFilter_DEBUG>
 )
 
 set(GIT_COMMIT_ID_FILE ${CMAKE_CURRENT_BINARY_DIR}/git_commit_id.txt)
@@ -28,39 +28,41 @@ add_custom_target(GitCommitIDFile
     VERBATIM
 )
 
+find_package(Eigen3 3.3 REQUIRED CONFIG)
+
 add_subdirectory(doc EXCLUDE_FROM_ALL)
 add_subdirectory(source)
 
-option(MyProject_ENABLE_TESTING "Enable testing for MyProject" ON)
-if (${MyProject_ENABLE_TESTING})
+option(KalmanFilter_ENABLE_TESTING "Enable testing for KalmanFilter" ON)
+if (${KalmanFilter_ENABLE_TESTING})
     enable_testing()
     add_subdirectory(tests)
 endif()
 
-export(EXPORT MyProjectTargets
-    NAMESPACE MyProject::
+export(EXPORT KalmanFilterTargets
+    NAMESPACE KalmanFilter::
 )
-install(EXPORT MyProjectTargets
-    NAMESPACE MyProject::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MyProject
+install(EXPORT KalmanFilterTargets
+    NAMESPACE KalmanFilter::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/KalmanFilter
 )
 
 write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/MyProjectConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/KalmanFilterConfigVersion.cmake
     VERSION ${PROJECT_VERSION}
     COMPATIBILITY SameMajorVersion 
 )
 configure_package_config_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/MyProjectConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/MyProjectConfig.cmake
-    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MyProject
+    ${CMAKE_CURRENT_SOURCE_DIR}/KalmanFilterConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/KalmanFilterConfig.cmake
+    INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/KalmanFilter
 )
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/MyProjectConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/MyProjectConfigVersion.cmake
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MyProject
+    ${CMAKE_CURRENT_BINARY_DIR}/KalmanFilterConfig.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/KalmanFilterConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/KalmanFilter
 )
 
-export(PACKAGE MyProject)
+export(PACKAGE KalmanFilter)
 
 include(CPack)
