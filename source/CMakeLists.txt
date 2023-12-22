@@ -1,4 +1,5 @@
 add_library(KalmanFilter INTERFACE) 
+add_library(KalmanFilter::KalmanFilter ALIAS KalmanFilter)
 target_sources(KalmanFilter 
 PUBLIC
 FILE_SET HEADERS FILES
